@@ -1,0 +1,38 @@
+<script>
+    function predict() {
+        let score = 0;
+        let maxScore = 13;
+
+        if (document.getElementById("weightLoss").checked) score += 2;
+        if (document.getElementById("pain").checked) score += 2;
+        if (document.getElementById("lump").checked) score += 3;
+        if (document.getElementById("bleeding").checked) score += 3;
+        if (document.getElementById("fatigue").checked) score += 1;
+        if (document.getElementById("smoking").checked) score += 2;
+
+        let percentage = Math.round((score / maxScore) * 100);
+
+        let riskLevel = "";
+        let color = "";
+
+        if (percentage <= 30) {
+            riskLevel = "Low Risk";
+            color = "#2ecc71";
+        } else if (percentage <= 60) {
+            riskLevel = "Medium Risk";
+            color = "#f1c40f";
+        } else {
+            riskLevel = "High Risk";
+            color = "#e74c3c";
+        }
+
+        let output = document.getElementById("output");
+        output.innerHTML = `
+            <p>${riskLevel}</p>
+            <p>Cancer Risk Probability: <b>${percentage}%</b></p>
+            <p style="font-size:12px;">(This is not a medical diagnosis)</p>
+        `;
+        output.style.backgroundColor = color;
+        output.style.color = "white";
+    }
+</script>

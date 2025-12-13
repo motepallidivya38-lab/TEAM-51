@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cancer Risk Predictor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            padding: 30px;
+        }
+        .container {
+            max-width: 500px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 10px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Cancer Risk Predictor</h2>
+
+    <label><input type="checkbox" id="weightLoss"> Unexplained Weight Loss</label>
+    <label><input type="checkbox" id="pain"> Persistent Pain</label>
+    <label><input type="checkbox" id="lump"> Lump or Thickening</label>
+    <label><input type="checkbox" id="bleeding"> Unusual Bleeding</label>
+    <label><input type="checkbox" id="fatigue"> Constant Fatigue</label>
+    <label><input type="checkbox" id="smoking"> Smoking History</label>
+
+    <button onclick="predict()">Predict Risk</button>
+
+    <div id="output" class="result"></div>
+</div>
+
+<script>
+    function predict() {
+        let score = 0;
+
+        if (document.getElementById("weightLoss").checked) score += 2;
+        if (document.getElementById("pain").checked) score += 2;
+        if (document.getElementById("lump").checked) score += 3;
+        if (document.getElementById("bleeding").checked) score += 3;
+        if (document.getElementById("fatigue").checked) score += 1;
+        if (document.getElementById("smoking").checked) score += 2;
+
+        let resultText = "";
+        let color = "";
+
+        if (score <= 2) {
+            resultText = "Low Risk – Maintain healthy lifestyle";
+            color = "#2ecc71";
+        } else if (score <= 6) {
+            resultText = "Medium Risk – Consider medical consultation";
+            color = "#f1c40f";
+        } else {
+            resultText = "High Risk – Immediate medical attention recommended";
+            color = "#e74c3c";
+        }
+
+        let output = document.getElementById("output");
+        output.innerText = resultText;
+        output.style.backgroundColor = color;
+        output.style.color = "white";
+    }
+</script>
+
+</body>
+</html>
