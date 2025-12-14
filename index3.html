@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SmartScreen Multi-Model Early Screening Platform</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef3f7;
+            padding: 30px;
+        }
+        h1 {
+            text-align: center;
+            color: #1f4e79;
+        }
+        .container {
+            max-width: 900px;
+            background: white;
+            margin: auto;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 0 12px rgba(0,0,0,0.15);
+        }
+        label {
+            font-weight: bold;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 16px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+        button {
+            background: #1f4e79;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #163a57;
+        }
+        #output {
+            margin-top: 25px;
+            padding: 18px;
+            border-radius: 10px;
+            background: #f4faff;
+            border-left: 5px solid #1f4e79;
+        }
+    </style>
+</head>
+<body>
+    <h1>SmartScreen Multi-Model Early Screening Platform</h1>
+
+    <div class="container">
+        <h2>🔎 Input Your Details</h2>
+
+        <label>Full Name:</label>
+        <input type="text" id="name" placeholder="Enter your name">
+
+        <label>Age:</label>
+        <input type="number" id="age" placeholder="Enter your age">
+
+        <label>Select Gender:</label>
+        <select id="gender">
+            <option value="">-- choose --</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+        </select>
+
+        <label>Symptoms (describe clearly):</label>
+        <textarea id="symptoms" placeholder="Example: lump in breast, weight loss, cough..."></textarea>
+
+        <label>Medical History:</label>
+        <textarea id="history" placeholder="Example: diabetes, hypertension, previous cancer..."></textarea>
+
+        <label>Family History of Cancer?</label>
+        <select id="family">
+            <option>No</option>
+            <option>Yes</option>
+        </select>
+
+        <label>Lifestyle Factors:</label>
+        <select id="life">
+            <option>Healthy</option>
+            <option>Smoker</option>
+            <option>Alcohol Consumption</option>
+            <option>Obesity</option>
+            <option>High Stress</option>
+        </select>
+
+        <label>Upload Skin / Oral Image (Optional):</label>
+        <input type="file" id="image">
+
+        <button onclick="predictRisk()">Generate Screening Report</button>
+
+        <div id="output"></div>
+    </div>
+
+    <script>
+        function predictRisk() {
+            let symptoms = document.getElementById("symptoms").value.toLowerCase();
+            let family = document.getElementById("family").value;
+            let lifestyle = document.getElementById("life").value;
+
+            let risk = "Low";
+            let detectedCancer = "None";
+
+            // ---- AI-LIKE RULES ----
+            if (symptoms.includes("lump") || symptoms.includes("breast pain")) {
+                risk = "Moderate to High";
+                detectedCancer = "Breast Cancer (Early Indicators)";
+            }
+            if (symptoms.includes("mouth ulcer") || symptoms.includes("white patch")) {
+                risk = "Moderate";
+                detectedCancer = "Oral Cancer (Possible Indications)";
+            }
+            if (symptoms.includes("dark patch") || symptoms.includes("mole change")) {
+                risk = "Moderate to High";
+                detectedCancer = "Skin Cancer (Melanoma Indicators)";
+            }
+            if (symptoms.includes("severe cough") || symptoms.includes("blood cough")) {
+                risk = "High";
+                detectedCancer = "Lung Cancer (Symptom-Based)";
+            }
+            if (family === "Yes") {
+                risk = "Moderate to High";
+            }
+            if (lifestyle === "Smoker") {
+                risk = "High";
+            }
+
+            // ---- Medicine Suggestion (General — NOT prescription) ----
+            let medicine = "";
+            if (detectedCancer.includes("Breast")) {
+                medicine = "Regular Screening, Vitamin D, healthy diet. (Consult doctor)";
+            } else if (detectedCancer.includes("Skin")) {
+                medicine = "Topical antioxidant creams, sun protection, monthly checkups.";
+            } else if (detectedCancer.includes("Oral")) {
+                medicine = "Maintain oral hygiene, Vitamin C, avoid tobacco.";
+            } else if (detectedCancer.includes("Lung")) {
+                medicine = "Avoid smoke, inhalers (if prescribed), steam inhalation.";
+            } else {
+                medicine = "Basic multivitamins, healthy food, exercise.";
+            }
+
+            // ---- OUTPUT ----
+            document.getElementById("output").innerHTML = `
+                <h2>🧾 Screening Report</h2>
+                <p><strong>Detected Condition:</strong> ${detectedCancer}</p>
+                <p><strong>Risk Level:</strong> ${risk}</p>
+
+                <h3>💊 Suggested Supportive Medicine (Non-prescription)</h3>
+                <p>${medicine}</p>
+
+                <h3>📌 Recommendations</h3>
+                <ul>
+                    <li>Visit a doctor for proper diagnosis.</li>
+                    <li>Do not rely only on online predictions.</li>
+                    <li>Maintain healthy diet and active lifestyle.</li>
+                    <li>Stay hydrated and reduce stress.</li>
+                </ul>
+            `;
+        }
+    </script>
+
+</body>
+</html>
